@@ -1,0 +1,20 @@
+
+import java.util.*;
+
+/**
+ * 
+ */
+public class Location {
+
+    /**
+     * Default constructor
+     */
+    public Location() {
+    }
+
+    /**
+     * 
+     */
+    private <int, int> location;
+
+}
