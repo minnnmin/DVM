@@ -59,15 +59,7 @@ public class DVM {
     /**
      * @return
      */
-    public boolean isEnoughStock() {
-        // TODO implement here
-        return false;
-    }
 
-    /**
-     * @param String vCode 
-     * @return
-     */
     public boolean saveVerificationCode(void String vCode) {
         // TODO implement here
         return false;
