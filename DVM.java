@@ -10,6 +10,7 @@ public class DVM {
      * Default constructor
      */
     public DVM() {
+        this.location = location(0,0);
     }
 
     /**
@@ -37,7 +38,7 @@ public class DVM {
      */
     public Location getLocation() {
         // TODO implement here
-        return null;
+        return location;
     }
 
     /**
