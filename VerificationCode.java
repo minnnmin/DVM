@@ -4,6 +4,8 @@ import java.util.*;
 /**
  * 
  */
+@Getter
+@Setter
 public class VerificationCode {
 
     /**
