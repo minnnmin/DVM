@@ -4,8 +4,7 @@ import java.util.*;
 /**
  * 
  */
-@Getter
-@Setter
+
 public class Location {
     private int x;
     private int y;
