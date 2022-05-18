@@ -4,8 +4,6 @@ import java.util.*;
 /**
  * 
  */
-@Getter
-@Setter
 public class VerificationCode {
 
     /**
@@ -19,4 +17,11 @@ public class VerificationCode {
      */
     private String verificationCode;
 
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
 }
