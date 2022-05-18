@@ -54,11 +54,35 @@ public class Controller {
     }
 
     /**
+     * @param int count
+     * @param int dCode
      * @return
      */
     public Location getClosestDVM() {
         // TODO implement here
-        return null;
+        location returnLoc;
+        int min = 9999;
+        //location[] respondLoc = new Location[10];
+        location myLoc = myDVM.getLocation();
+        int x = myloc.getX();
+        int y = myloc.getY();
+        /*
+            msg broadcast, dCode(음료)가 count 이상인 DVM들의 위치를 받아서 바로바로 비교
+        */
+        //받은 메시지의 location이 res이라고 가정
+        //while(메세지 큐가 비지않았다면 반복)
+        int tempx = x - res.x;
+        if(tempx<0) tempx = tempx * -1;
+        int tempy = y - res.y;
+        if(tempy<0) tempy = tempy * -1;
+        if(tempx+tempy < min) {
+            min = tempx + tempy;
+            returnLoc.setX(tempx);
+            returnLoc.setY(tempy);
+        }
+        /// 반복
+
+        return returnLoc;
     }
 
     /**
@@ -90,7 +114,17 @@ public class Controller {
      */
     public String vCode createVerificationCode() {
         // TODO implement here
-        return null;
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 10;
+        Random random = new Random();
+
+        String vCode = random.ints(leftLimit,rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+        return vCode;
     }
 
     /**
