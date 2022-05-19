@@ -8,6 +8,18 @@ public class Card {
         this.balance = balance;
     }
 
+    public int getBalance() {
+        return balance;
+    }
+
+    public String getInformation() {
+        return information;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
     private String information;
     private int balance;
 

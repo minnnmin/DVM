@@ -9,12 +9,13 @@ public class CardCompany {
     public CardCompany() {
     }
 
-    private static Card[5] cardList;
-    Card[0]= new Card(0000111122223333, 0);
-    Card[1]= new Card(1111222233334444, 1000);
-    Card[2]= new Card(2222333344445555, 5000);
-    Card[3]= new Card(3333444455556666, 10000);
-    Card[4]= new Card(4444555566667777, 10000);
+    private static Card[] cardList = {
+            new Card(0000111122223333, 0),
+            new Card(1111222233334444,1000),
+            new Card(2222333344445555,5000),
+            new Card(3333444455556666,10000),
+            new Card(4444555566667777,10000)
+    };
 
     public static boolean isVaildCard(String cardInfo, int totalPrice) {
         boolean test = false;
