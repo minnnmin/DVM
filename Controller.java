@@ -30,6 +30,9 @@ public class Controller {
     /**
      * @return
      */
+
+    Scanner scan=new Scanner(System.in);
+
     public void showMenu() {
         // TODO implement here
         return null;
@@ -88,25 +91,39 @@ public class Controller {
     /**
      * @return
      */
-    public void showOtherDVM() {
-        // TODO implement here
-        return null;
+    public void showOtherDVM(Location otherDVM) {
+        System.out.println("재고가 있는 가장 가까운 DVM의 위치는 "+otherDVM.x+", "+otherDVM.y);
     }
 
-    /**
-     * @return
-     */
     public void showSelectItemPage() {
         // TODO implement here
         return null;
     }
 
-    /**
-     * @return
-     */
-    public void showPaymentPage() {
-        // TODO implement here
-        return null;
+    public void showPaymentPage(int totalPrice) {
+        String cardInfo;
+        boolean check;
+
+        System.out.println("<결제>");
+        System.out.println("(메뉴 선택으로 돌아가려면 \"0\"을 입력해주세요.)");
+        System.out.print(">");
+
+        cardInfo=scan.nextLine();
+        if(cardInfo.equals("0"))
+            return; //showMenu로 돌아감
+        else {
+            check = CardCompany.isValidCard(cardInfo,totalPrice);
+            if (check) {
+                CardCompany.deductMoney(cardInfo,totalPrice);
+                myDVM.updateStock();    //뭔가 넘겨야 할 것 같다.
+                getOutDrink();  //updateStock이 잘 되면 진행해야 할 것 같다.
+                return;
+            }
+            else {
+                System.out.println("카드 정보가 올바르지 않거나 잔액이 부족하여 메뉴 선택으로 돌아갑니다.");
+                return; //showMenu로 돌아감
+            }
+        }
     }
 
     /**
@@ -139,14 +156,42 @@ public class Controller {
      * @return
      */
     public void showAdminPasswordPage() {
-        // TODO implement here
-        return null;
+
+        int menu;
+
+        System.out.println("<관리자 모드>");
+        System.out.println("원하는 작업의 번호를 선택해주세요.");
+        System.out.println("(메뉴 선택으로 돌아가려면 \"0\"을 입력해주세요.");
+
+        System.out.println("1. DVM 정보 관리");
+        System.out.println("2. 음료 정보 관리");
+        System.out.println("3. 음료 세팅");
+
+        System.out.print(">");
+
+        while(true)
+        {
+            while(!scan.hasNextInt())
+            {
+                scan.next();
+                System.out.println("정확한 번호만 입력하세요");
+            }
+            menu=scan.nextInt();
+            if(menu==1)
+                setDVMInfo();
+            else if(menu==2)
+                setDrinkInfo();
+            else if(menu==3)
+                setDrinkKinds();
+            else if(menu==0)
+                return; //showMenu로 돌아감
+            else
+            {
+                System.out.println("번호는 0~3만 입력하세요");
+            }
+        }
     }
 
-    /**
-     * @param String password 
-     * @return
-     */
     public boolean checkAdminPassword(void String password) {
         boolean check=myDVM.isValidPassword();
         if(!check)
@@ -155,26 +200,87 @@ public class Controller {
             return true;
     }
 
-    /**
-     * @return
-     */
     public void showAdminMenu() {
-        // TODO implement here
-        return null;
+
+        String adminPassword;
+        boolean check;
+
+        System.out.println("Admin password를 입력해 주세요");
+        System.out.println("(메뉴 선택으로 돌아가려면 \"0\"을 입력해주세요.");
+        System.out.print(">");
+
+        while(true) {
+            adminPassword=scan.nextLine();
+            if(adminPassword.equals("0"))
+                return; //showMenu로 돌아감
+            else {
+                check = checkAdminPassword(adminPassword);
+                if (check) {
+                    showAdminPasswordPage();
+                }
+                else {
+                    System.out.println("비밀번호가 틀렸습니다. 다시 입력하세요");
+                }
+            }
+        }
     }
 
     public void setDVMInfo() {
 
+        String name="Team4";
+        String inputId;
+        int x=0;
+        int y=0;
+        Location loc;
 
         System.out.println("<DVM 정보 관리>");
         System.out.println("id 입력 후 tab을 눌러 좌표를 입력하세요\n");
         System.out.println("id  좌표");
-        System.out.println(">");
+        System.out.println("Team4   10 20");
+        System.out.print(">");
 
         while(true)
         {
-
+            inputId=scan.next();
+            if(inputId.equals(name))
+            {
+                break;
+            }
+            else
+            {
+                System.out.println("DVM의 id를 확인 후 입력하세요");
+            }
         }
+        while(true)
+        {
+            while(!scan.hasNextInt())
+            {
+                scan.next();
+                System.out.println("정확한 번호만 입력하세요");
+            }
+            x=scan.nextInt();
+            if(x>=0&&x<=99)
+                break;
+            else
+                System.out.println("x 좌표의 범위는 0~99입니다. 다시 입력하세요");
+        }
+
+        while(true)
+        {
+            while(!scan.hasNextInt())
+            {
+                scan.next();
+                System.out.println("정확한 번호만 입력하세요");
+            }
+            y=scan.nextInt();
+            if(y>=0&&y<=99)
+                break;
+            else
+                System.out.println("y 좌표의 범위는 0~99입니다. 다시 입력하세요");
+        }
+
+        loc=new Location(x,y);
+        myDVM.saveDVMInfo(inputId,loc);
     }
 
     public void setDrinkInfo() {
@@ -182,7 +288,7 @@ public class Controller {
     }
 
     public void setDrinkKinds() {
-        Scanner scan=new Scanner(System.in);
+
         int count=0;
         int drinkCode=0;
         int[] dCodeArr=new int[7];
@@ -198,7 +304,7 @@ public class Controller {
         {
             while(!scan.hasNextInt())
             {
-                scan.next():
+                scan.next();
                 System.out.println("정확한 번호만 입력하세요");
             }
             drinkCode=scan.nextInt();
@@ -211,7 +317,7 @@ public class Controller {
             }
             else
             {
-                System.out.println("정확한 번호만 입력하세요");
+                System.out.println("번호는 01~20만 입력하세요");
             }
         }
         myDVM.saveDrinkKinds(dCodeArr);
