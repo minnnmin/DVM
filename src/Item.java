@@ -77,7 +77,7 @@ public class Item {
         stock=0;
     }
     private int code;
-    private string name;
+    private String name;
     private int price;
     private int stock;
 
