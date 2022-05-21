@@ -61,7 +61,7 @@ public class DVM {
      * @return
      */
 
-    public boolean saveVerificationCode(void String vCode) {
+    public boolean saveVerificationCode(Message msg) {
         // TODO implement here
         return false;
     }

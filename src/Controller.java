@@ -338,8 +338,11 @@ public class Controller {
                 else{
 
                 }
+                break;
 
             case "PrepaymentCheck":
+                myDVM.saveVerificationCode(msg);
+                break;
         }
 
         return ;
