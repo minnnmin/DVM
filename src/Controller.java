@@ -8,14 +8,14 @@ public class Controller {
         myDVM = new DVM();
     }
 
-    private Int code;
-    private Int count;
+    private String code;
+    private int count;
     private DVM myDVM;
     private String userInfo;   //없어도 되지 않나 싶음
     private int totalPrice;    //없어도 되지 않나 싶음
 
     public void showMenu() {
-        while(true) {           //일단 무한 loop를 돌림
+        while(true) {
             int mode = 0;
             Scanner sc = new Scanner(System.in);
 
@@ -72,16 +72,37 @@ public class Controller {
         }
 
 
-        return null;
+        return ;
     }
+    //일단 무한 loop를 돌림
 
     public int isVaildCode() {
-        if(code == 0){
-            return 0;
-        } else if ((code > 0) && (code < 21)) {
-            return 1;
-        } else {
-            return -1;
+        switch(code){
+            case "0":
+                return 0;
+            case "01":
+            case "02":
+            case "03":
+            case "04":
+            case "05":
+            case "06":
+            case "07":
+            case "08":
+            case "09":
+            case "10":
+            case "11":
+            case "12":
+            case "13":
+            case "14":
+            case "15":
+            case "16":
+            case "17":
+            case "18":
+            case "19":
+            case "20":
+                return 1;
+            default:
+                return -1;
         }
     }
 
@@ -97,12 +118,12 @@ public class Controller {
 
     public Location getClosestDVM() {
         // TODO implement here
-        location returnLoc;
+        Location returnLoc = new Location();
         int min = 9999;
         //location[] respondLoc = new Location[10];
-        location myLoc = myDVM.getLocation();
-        int x = myloc.getX();
-        int y = myloc.getY();
+        Location myLoc = myDVM.getLocation();
+        int x = myLoc.getX();
+        int y = myLoc.getY();
         /*
             msg broadcast, dCode(음료)가 count 이상인 DVM들의 위치를 받아서 바로바로 비교
         */
@@ -122,9 +143,9 @@ public class Controller {
         return returnLoc;
     }
 
-    public void showOtherDVM() {
-        // TODO implement here
-        return null;
+    public void showOtherDVM(Location otherDVM) {
+        System.out.println("재고가 있는 가장 가까운 DVM의 위치는 "+otherDVM.getX()+", "+otherDVM.getY());
+        return ;
     }
 
     public void showSelectItemPage() {
@@ -132,26 +153,26 @@ public class Controller {
         Scanner sc = new Scanner(System.in);
 
         while(!(errno == 1)) {
-            System.out.println("콜라(01)      사이다(02)     녹차(03)      홍차(04)\n" +
+            System.out.println("콜라(01)     사이다(02)     녹차(03)      홍차(04)\n" +
                     "밀크티(05)   탄산수(06)     보리차(07)     캔커피(08)\n" +
                     "물(09)      에너지드링크(10) 바닷물(11)    식혜(12)\n" +
                     "아이스티(12) 딸기주스(14)    오렌지주스(15) 포도주스(16)\n" +
                     "이온음료(17) 아메리카노(18)   핫초코(19)    카페라뗴(20)");
-            System.out.println("메뉴 선택으로 돌아가려면 "0"을 입력해 주세요.\n");
+            System.out.println("메뉴 선택으로 돌아가려면 \"0\"을 입력해 주세요.\n");
             System.out.println("원하시는 음료의 번호를 입력해주세요.\n" +
                     "> ");
             try{
-                code = sc.nextInt();
+                code = sc.next();
             }
             catch(InputMismatchException ime){
-                System.out.println("잘못된 입력입니다. 정수만 입력해주세요.");
+                System.out.println("잘못된 입력입니다.");
                 continue;
             }
 
             errno = isVaildCode();
             if(errno == 0){
                 System.out.println("음료 선택을 취소합니다.");
-                return null;
+                return ;
             } else if (errno == -1) {
                 System.out.println("0~20 사이의 음료코드를 입력해주세요.");
             }
@@ -169,31 +190,31 @@ public class Controller {
                 continue;
             }
 
-            errno = isVaildcount();
+            errno = isVaildCount();
             if(errno == 0){
                 System.out.println("음료 선택을 취소합니다.");
-                return null;
+                return ;
             } else if (errno == -1) {
                 System.out.println("1~999 사이애서 개수를 입력해주세요.");
             }
         }
 
-        if(checkStock()){
+        if(myDVM.checkStock()){
             showPaymentPage();
         }else{
             showOtherDVM(getClosestDVM());
             showPaymentPage();
         }
 
-        return null;
+        return ;
     }
 
     public void showPaymentPage() {
         // TODO implement here
-        return null;
+        return ;
     }
 
-    public String vCode createVerificationCode() {
+    public String createVerificationCode() {
         // TODO implement here
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
@@ -209,7 +230,7 @@ public class Controller {
     }
 
     public void showVerificationCodeMenu() {
-        String vCode;
+        String vCode = "입력오류";
         boolean vCodeTR = false;
 
         Scanner sc = new Scanner(System.in);
@@ -241,7 +262,7 @@ public class Controller {
         }
 
         sc.close();
-        return null;
+        return ;
     }
 
     public boolean isRightVerificationCode(String vCode){
@@ -251,7 +272,7 @@ public class Controller {
 
         if(vCode.length() == 10){
             for(int i = 0; i < vCode.length(); i++){
-                chrInput = vCode.charAT(i);
+                chrInput = vCode.charAt(i);
                 if (chrInput >= 0x61 && chrInput <= 0x7A) {
                     letterFlag = true;
                 } else if (chrInput >= 0x30 && chrInput <= 0x39) {
@@ -271,40 +292,60 @@ public class Controller {
 
     public void showAdminPasswordPage() {
         // TODO implement here
-        return null;
+        return ;
     }
 
-    public boolean checkAdminPassword(void String password) {
+    public boolean checkAdminPassword(String password) {
         // TODO implement here
         return false;
     }
 
     public void showAdminMenu() {
         // TODO implement here
-        return null;
+        return ;
     }
 
     public void setDVMInfo() {
         // TODO implement here
-        return null;
+        return ;
     }
 
     public void setDrinkInfo() {
         // TODO implement here
-        return null;
+        return ;
     }
 
     public void setDrinkKinds() {
         // TODO implement here
-        return null;
+        return ;
     }
 
-    public void receiveMsg() {
-        // TODO implement here
-        return null;
+    public void receiveMsg(Message msg) {  //myDVM.checkStock() 구현 봐야 함
+        String msgType = msg.getMsgType();
+
+        switch(msgType){
+            case "StockCheckRequest":
+               if(myDVM.checkStock()) {
+                   //재고 확인 응답 message 보냄
+               }
+                break;
+            case "SalesCheckRequest":
+                if(myDVM.checkStock()){
+                    if(myDVM.updateStock()){
+                        //음표 판매 응답 message 보냄
+                    }
+                }
+                else{
+
+                }
+
+            case "PrepaymentCheck":
+        }
+
+        return ;
     }
 
-    public boolean checkMsgType() {
+    public boolean checkMsgType() {    //Message 객체에서 msgType 바로 사용하면 되서 필요 없을 것 같습니다.
         // TODO implement here
         return false;
     }
@@ -313,12 +354,13 @@ public class Controller {
         System.out.println(vCode);
         System.out.println("음료가 모두 배출되었습니다.\n 감사합니다.");
 
-        return null;
+        return ;
     }
 
     public int calculateTotalPrice(){
-        int totalPrice = count * myDVM.'코드에 해당하는 음료 가격 리턴해주는 함수'(code);   // DMV 완성 후
+        int totalPrice = count * myDVM.'코드에 해당하는 음료 가격 리턴해주는 함수'(code);
 
         return totalPrice;
     }
+    // DMV 완성 후, 함수 하나 사용해야 함
 }

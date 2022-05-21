@@ -77,9 +77,9 @@ public class DVM {
     /**
      * @return
      */
-    public boolean reqVerificationCodeItem() {
+    public String reqVerificationCodeItem(String vCode) {
         // TODO implement here
-        return false;
+        return ;
     }
 
     /**
