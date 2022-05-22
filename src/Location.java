@@ -1,9 +1,8 @@
+package src;
 
 import java.util.*;
 
-/**
- * 
- */
+
 
 public class Location {
     private int x;

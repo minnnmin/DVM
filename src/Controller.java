@@ -1,3 +1,4 @@
+package src;
 
 import java.util.*;
 import Model.Message;
@@ -12,72 +13,67 @@ public class Controller {
     private String dCode;
     private int count;
     private DVM myDVM;
-    private String userInfo;   //없어도 되지 않나 싶음
-    private int totalPrice;    //없어도 되지 않나 싶음
+
 
     public void showMenu() {
-        while(true) {
-            int mode = 0;
-            Scanner sc = new Scanner(System.in);
 
-            while (true) {
-                try {
-                    System.out.println("원하시는 메뉴의 번호를 입력해주세요.\n" +
-                            "1. 음료 선택\n" +
-                            "2. 인증코드 입력\n" +
-                            "3. 관리자 모드" +
-                            "> ");
-                    mode = sc.nextInt();
-                    break;
-                } catch (InputMismatchException ime) {
-                    System.out.println("잘못된 입력입니다. 정수만 입력해주세요.");
-                }
-            }
+        int mode;
+        Scanner sc = new Scanner(System.in);
 
-
-
-            while (!(mode > 0 && mode < 4)) {
-                System.out.println("잘못된 입력입니다. 1, 2, 3 중에서만 입력해주세요.");
+        while (true) {
+            try {
                 System.out.println("원하시는 메뉴의 번호를 입력해주세요.\n" +
                         "1. 음료 선택\n" +
                         "2. 인증코드 입력\n" +
                         "3. 관리자 모드" +
                         "> ");
-                while (true) {
-                    try {
-                        mode = sc.nextInt();
-                        break;
-                    } catch (InputMismatchException ime) {
-                        System.out.println("잘못된 입력입니다. 정수만 입력해주세요.");
-                        System.out.println("원하시는 메뉴의 번호를 입력해주세요.\n" +
-                                "1. 음료 선택\n" +
-                                "2. 인증코드 입력\n" +
-                                "3. 관리자 모드" +
-                                "> ");
-                    }
-                }
-            }
-            sc.close();
-
-            switch (mode) {
-                case 1:
-                    showSelectItemPage();
-                    break;
-                case 2:
-                    showVerificationCodeMenu();
-                    break;
-                case 3:
-                    showAdminPasswordPage();
-                    break;
+                mode = sc.nextInt();
+                break;
+            } catch (InputMismatchException ime) {
+                System.out.println("잘못된 입력입니다. 정수만 입력해주세요.");
             }
         }
 
 
-        return ;
-    }
-    //일단 무한 loop를 돌림
 
-    public int isVaildCode() {
+        while (!(mode > 0 && mode < 4)) {
+            System.out.println("잘못된 입력입니다. 1, 2, 3 중에서만 입력해주세요.");
+            System.out.println("원하시는 메뉴의 번호를 입력해주세요.\n" +
+                    "1. 음료 선택\n" +
+                    "2. 인증코드 입력\n" +
+                    "3. 관리자 모드" +
+                    "> ");
+            while (true) {
+                try {
+                    mode = sc.nextInt();
+                    break;
+                } catch (InputMismatchException ime) {
+                    System.out.println("잘못된 입력입니다. 정수만 입력해주세요.");
+                    System.out.println("원하시는 메뉴의 번호를 입력해주세요.\n" +
+                            "1. 음료 선택\n" +
+                            "2. 인증코드 입력\n" +
+                            "3. 관리자 모드" +
+                            "> ");
+                }
+            }
+        }
+        sc.close();
+
+        switch (mode) {
+            case 1:
+                showSelectItemPage();
+                break;
+            case 2:
+                showVerificationCodeMenu();
+                break;
+            case 3:
+                showAdminPasswordPage();
+                break;
+        }
+    }
+
+
+    public int isValidCode() {
         switch(dCode){
             case "0":
                 return 0;
@@ -107,7 +103,7 @@ public class Controller {
         }
     }
 
-    public int isVaildCount() {
+    public int isValidCount() {
         if(count == 0){
             return 0;
         }else if((count > 0) && ( count < 1000)){
@@ -139,14 +135,13 @@ public class Controller {
             returnLoc.setX(tempx);
             returnLoc.setY(tempy);
         }
-        /// 반복
+        // 반복
 
         return returnLoc;
     }
 
     public void showOtherDVM(Location otherDVM) {
         System.out.println("재고가 있는 가장 가까운 DVM의 위치는 "+otherDVM.getX()+", "+otherDVM.getY());
-        return ;
     }
 
     public void showSelectItemPage() {
@@ -170,7 +165,7 @@ public class Controller {
                 continue;
             }
 
-            errno = isVaildCode();
+            errno = isValidCode();
             if(errno == 0){
                 System.out.println("음료 선택을 취소합니다.");
                 return ;
@@ -191,7 +186,7 @@ public class Controller {
                 continue;
             }
 
-            errno = isVaildCount();
+            errno = isValidCount();
             if(errno == 0){
                 System.out.println("음료 선택을 취소합니다.");
                 return ;
@@ -200,19 +195,16 @@ public class Controller {
             }
         }
 
-        if(myDVM.checkStock(dCode, count)){
+        if(myDVM.checkStock( Integer.parseInt(dCode), count)){
             showPaymentPage();
         }else{
             showOtherDVM(getClosestDVM());
             showPaymentPage();
         }
-
-        return ;
     }
 
     public void showPaymentPage() {
         // TODO implement here
-        return ;
     }
 
     public String createVerificationCode() {
@@ -253,7 +245,7 @@ public class Controller {
         }
 
         vCodeTR = myDVM.isValidVerificationCode();             //유효한 인증코드 test
-        if (vCode.equals("0")) {
+        if(vCode.equals("0")) {
 
         } else if (!vCodeTR) {
 
@@ -263,7 +255,6 @@ public class Controller {
         }
 
         sc.close();
-        return ;
     }
 
     public boolean isRightVerificationCode(String vCode){
@@ -281,11 +272,11 @@ public class Controller {
                 } else{
                     break;
                 }
-
-                if((i == vCode.length()) && (numberFlag && letterFlag)) {
+                if((i+1 == vCode.length()) && (numberFlag && letterFlag)) {
                     vCodeTR = true;
                 }
             }
+
         }
 
         return vCodeTR;
@@ -293,7 +284,6 @@ public class Controller {
 
     public void showAdminPasswordPage() {
         // TODO implement here
-        return ;
     }
 
     public boolean checkAdminPassword(String password) {
@@ -303,22 +293,18 @@ public class Controller {
 
     public void showAdminMenu() {
         // TODO implement here
-        return ;
     }
 
     public void setDVMInfo() {
         // TODO implement here
-        return ;
     }
 
     public void setDrinkInfo() {
         // TODO implement here
-        return ;
     }
 
     public void setDrinkKinds() {
         // TODO implement here
-        return ;
     }
 
     public void receiveMsg(Message msg) {  //myDVM.checkStock() 구현 봐야 함
@@ -326,27 +312,26 @@ public class Controller {
 
         switch(msgType){
             case "StockCheckRequest":
-               if(myDVM.checkStock(msg.getMsgDescription().getItemCode(), msg.getMsgDescription().getItemNum())) {
+               if(myDVM.checkStock(Integer.parseInt(msg.getMsgDescription().getItemCode()), msg.getMsgDescription().getItemNum())) {
                    //재고 확인 응답 message 보냄
                }
                 break;
             case "SalesCheckRequest":
-                if(myDVM.checkStock(msg.getMsgDescription().getItemCode(), msg.getMsgDescription().getItemNum())){
-                    if(myDVM.updateStock()){
+                if(myDVM.checkStock(Integer.parseInt(msg.getMsgDescription().getItemCode()), msg.getMsgDescription().getItemNum())){
+                    if(myDVM.updateStock(Integer.parseInt(msg.getMsgDescription().getItemCode()), msg.getMsgDescription().getItemNum())){
                         //음표 판매 응답 message 보냄
                     }
                 }
                 else{
-
+                        //응답 message 보내지 않음
                 }
                 break;
 
             case "PrepaymentCheck":
-                myDVM.saveVerificationCode(msg.getMsgDescription().getAuthCode(), msg.getMsgDescription().getItemCode(), msg.getMsgDescription().getItemNum());
+                myDVM.saveVerificationCode(msg.getMsgDescription().getAuthCode(), Integer.parseInt(msg.getMsgDescription().getItemCode()), msg.getMsgDescription().getItemNum());
                 break;
         }
 
-        return ;
     }
 
     public boolean checkMsgType() {    //Message 객체에서 msgType 바로 사용하면 되서 필요 없을 것 같습니다.
@@ -358,13 +343,10 @@ public class Controller {
         System.out.println(vCode);
         System.out.println("음료가 모두 배출되었습니다.\n 감사합니다.");
 
-        return ;
     }
 
     public int calculateTotalPrice(){
-        int totalPrice = count * myDVM.'코드에 해당하는 음료 가격 리턴해주는 함수'(dCode);
-
-        return totalPrice;
+        return count * myDVM.getItemPrice(Integer.parseInt(dCode));
     }
-    // DMV 완성 후, 함수 하나 사용해야 함
+
 }
