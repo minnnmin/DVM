@@ -1,18 +1,12 @@
+package src;
 
 import java.util.*;
 import java.util.LinkedList;
-import java.util.Queue;
 
-/**
- * 
- */
 public class DVM {
 
-    /**
-     * Default constructor
-     */
     public DVM() {
-        this.location = Location(0,0);
+        this.location = new Location(0,0);
         itemList = new Item[20];
         for(int i = 0; i < 20 ; ++i){
             itemList[i] = new Item(i);
@@ -22,103 +16,88 @@ public class DVM {
     private String id;
     private Location location;
     private Item[] itemList;
-    private Queue<String> vCodeList = new LinkedList<String>();
+    private LinkedList<String> vCodeList = new LinkedList<String>();
+    private LinkedList<String> prepayItemList = new LinkedList<String>();
 
-
-    /**
-     * @return
-     */
     public Location getLocation() {
-        // TODO implement here
         return location;
     }
 
-    /**
-     * @return
-     */
+    public Item[] getItemList() {
+        return itemList;
+    }
+
+    public int getItemPrice(int dCode){
+        return itemList[dCode-1].getPrice();
+    }
+
     public boolean checkStock(int dCode, int Count) {
-        // TODO implement here
-        return itemlist[dCode-1].checkStock(Count);
+        return itemList[dCode-1].checkStock(Count);
     }
 
-    /**
-     * @return
-     */
     public boolean updateStock(int dCode, int Count) {
-        // TODO implement here
-        return itemlist[dCode-1].updateStock(Count);
+        return itemList[dCode-1].updateStock(Count);
     }
 
-    /**
-     * @return
-     */
-
-    public boolean saveVerificationCode(String vCode) {
-        // TODO implement here
+    public boolean saveVerificationCode(String vCode, int dCode, int Count) {
+        int temp = Count * 100 + dCode;
         vCodeList.add(vCode);
+        prepayItemList.add(Integer.toString(temp));
         return false;
     }
 
-    /**
-     * @return
-     */
     public boolean isValidVerificationCode(String vCode) {
-        // TODO implement here
-        return vCodeList.contain(vCode);
+        return vCodeList.contains(vCode);
     }
 
-    /**
-     * @return
-     */
+
     public boolean reqVerificationCodeItem(String vCode) {
         // TODO implement here
+        int index = vCodeList.indexOf(vCode);
+        vCodeList.remove(index);
+        String temp = prepayItemList.get(index);
+        int Calc = Integer.parseInt(temp);
+        int dCode = Calc%100;
+        int Count = Calc/100;
+        // getOutDrink 가 dCode랑 Count 정보를 필요로 할 것 같은데..?
         return false;
     }
 
-    /**
-     * @return
-     */
-    public boolean isValidPassword() {
+    public boolean isValidPassword(String pw) {
         // TODO implement here
         //Password 비교 대상을 어디에 둘지
         return false;
     }
 
-    /**
-     * @param String id 
-     * @param Location location 
-     * @return
-     */
-    public void saveDVMInfo(void String id, void Location location) {
-        // TODO implement here
+    public void saveDVMInfo(String id, Location location) {
         this.id = id;
         this.location.setX(location.getX());
         this.location.setY(location.getY());
-        return null;
     }
 
-    /**
-     * @param int dCode 
-     * @param int price 
-     * @param int stock 
-     * @param String name 
-     * @return
-     */
-    public void saveDrinkInfo(void int dCode, void int price, void int stock, void String name) {
-        // TODO implement here
-        //item setter 필요
-        //itemList[dCode-1];
-        return null;
+
+    public void saveDrinkInfo(int dCode, int price, int stock, String name) {
+        itemList[dCode-1].setPrice(price);
+        itemList[dCode-1].setStock(stock);
+        itemList[dCode-1].setName(name);
     }
 
-    /**
-     * @param int[] dCode 
-     * @return
-     */
-    public void saveDrinkKinds(void int[] dCode) {
-        // TODO implement here
+    public void saveDrinkKinds(int[] dCode) {
+        // 판매할 7개 짜리 int배열 넘겨주심
         // 받아오는 형식과 저장하는 방식의 문제
-        return null;
+        // 팔 음료 코드 7개 - , 나머지 13개 item에 대해 itemList에 stock = -1 << 안판다
+        boolean[] temp = new boolean[20];
+        for(int i = 0; i < 7 ; ++i){
+            temp[dCode[i]-1] = true;
+        }
+        for(int i = 0; i < 20 ; ++i){
+            if(!temp[i]) {
+                itemList[i].setStock(-1);
+            }else{
+                if(itemList[i].getStock() == -1) itemList[i].setStock(0);
+            }
+        }
+        //
     }
 
 }
