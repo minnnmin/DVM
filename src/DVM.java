@@ -44,7 +44,7 @@ public class DVM {
     /**
      * @return
      */
-    public boolean checkStock() {
+    public boolean checkStock(String dCode, int Count) {
         // TODO implement here
         return false;
     }
@@ -61,7 +61,7 @@ public class DVM {
      * @return
      */
 
-    public boolean saveVerificationCode(Message msg) {
+    public boolean saveVerificationCode(String vCode, String dCode, int Count) {
         // TODO implement here
         return false;
     }

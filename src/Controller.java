@@ -1,5 +1,6 @@
 
 import java.util.*;
+import Model.Message;
 
 
 public class Controller {
@@ -8,7 +9,7 @@ public class Controller {
         myDVM = new DVM();
     }
 
-    private String code;
+    private String dCode;
     private int count;
     private DVM myDVM;
     private String userInfo;   //없어도 되지 않나 싶음
@@ -77,7 +78,7 @@ public class Controller {
     //일단 무한 loop를 돌림
 
     public int isVaildCode() {
-        switch(code){
+        switch(dCode){
             case "0":
                 return 0;
             case "01":
@@ -162,7 +163,7 @@ public class Controller {
             System.out.println("원하시는 음료의 번호를 입력해주세요.\n" +
                     "> ");
             try{
-                code = sc.next();
+                dCode = sc.next();
             }
             catch(InputMismatchException ime){
                 System.out.println("잘못된 입력입니다.");
@@ -199,7 +200,7 @@ public class Controller {
             }
         }
 
-        if(myDVM.checkStock()){
+        if(myDVM.checkStock(dCode, count)){
             showPaymentPage();
         }else{
             showOtherDVM(getClosestDVM());
@@ -325,12 +326,12 @@ public class Controller {
 
         switch(msgType){
             case "StockCheckRequest":
-               if(myDVM.checkStock()) {
+               if(myDVM.checkStock(msg.getMsgDescription().getItemCode(), msg.getMsgDescription().getItemNum())) {
                    //재고 확인 응답 message 보냄
                }
                 break;
             case "SalesCheckRequest":
-                if(myDVM.checkStock()){
+                if(myDVM.checkStock(msg.getMsgDescription().getItemCode(), msg.getMsgDescription().getItemNum())){
                     if(myDVM.updateStock()){
                         //음표 판매 응답 message 보냄
                     }
@@ -341,7 +342,7 @@ public class Controller {
                 break;
 
             case "PrepaymentCheck":
-                myDVM.saveVerificationCode(msg);
+                myDVM.saveVerificationCode(msg.getMsgDescription().getAuthCode(), msg.getMsgDescription().getItemCode(), msg.getMsgDescription().getItemNum());
                 break;
         }
 
@@ -361,7 +362,7 @@ public class Controller {
     }
 
     public int calculateTotalPrice(){
-        int totalPrice = count * myDVM.'코드에 해당하는 음료 가격 리턴해주는 함수'(code);
+        int totalPrice = count * myDVM.'코드에 해당하는 음료 가격 리턴해주는 함수'(dCode);
 
         return totalPrice;
     }
