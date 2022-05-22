@@ -49,6 +49,10 @@ public class DVM {
         return false;
     }
 
+    public Item[] getItemList() {
+        return itemList;
+    }
+
     /**
      * @return
      */

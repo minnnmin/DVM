@@ -285,6 +285,18 @@ public class Controller {
 
     public void setDrinkInfo() {
 
+        Item[] myItem= myDVM.getItemList();
+
+        System.out.println("<음료 정보 관리>");
+        System.out.println("음료 정보 관리 시 tab을 눌러 다음 정보를 입력 후");
+        System.out.println("enter를 눌러 다음 음료를 입력하세요.\n");
+        System.out.println("음료 코드   음료 이름   가격  재고");
+
+        for(int i=0;i<myItem.length;i++)
+        {
+
+        }
+
     }
 
     public void setDrinkKinds() {
