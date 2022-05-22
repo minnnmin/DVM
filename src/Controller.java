@@ -246,11 +246,58 @@ public class Controller {
         System.out.println("<음료 정보 관리>");
         System.out.println("음료 정보 관리 시 tab을 눌러 다음 정보를 입력 후");
         System.out.println("enter를 눌러 다음 음료를 입력하세요.\n");
-        System.out.println("음료 코드   음료 이름   가격  재고");
+        System.out.println("음료 코드   음료 이름   가격  재고  판매 여부");
 
-        for(int i=0;i<myItem.length;i++)
+        for(int i=1;i<myItem.length;i++)
         {
+            if(myItem[i].getStock()==-1)
+            {
+                if(i>=1&&i<=9)
+                    System.out.println("0"+i+"\t"+myItem[i].getName()+"\t"+myItem[i].getPrice()+"\t"+"_"+"\t"+"X");
+                else
+                    System.out.println(i+"\t"+myItem[i].getName()+"\t"+myItem[i].getPrice()+"\t"+"_"+"\t"+"X");
+            }
+            else
+            {
+                if(i>=1&&i<=9)
+                    System.out.println("0"+i+"\t"+myItem[i].getName()+"\t");
+                else
+                    System.out.println(i+"\t"+myItem[i].getName()+"\t");
 
+                System.out.print(">");
+
+                int price=0;
+                int stock=0;
+
+                for(int j=0;j<2;j++) {
+                    while(true)
+                    {
+                        while (!scan.hasNextInt())
+                        {
+                            scan.next();
+                            System.out.println("정확한 번호만 입력하세요");
+                        }
+                        if(j==0)
+                        {
+                            price = scan.nextInt();
+                            if (price > 0)
+                                break;
+                            else
+                                System.out.println("가격은 0보다 커야 합니다. 다시 입력하세요");
+                        }
+                        else
+                        {
+                            stock = scan.nextInt();
+                            if (stock >= 0)
+                                break;
+                            else
+                                System.out.println("재고는 양수여야 합니다. 다시 입력하세요");
+                        }
+                    }
+                }
+
+                myDVM.saveDrinkInfo(i,price,stock,myItem[i].getName());
+            }
         }
 
     }
