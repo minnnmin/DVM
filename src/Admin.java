@@ -1,20 +1,11 @@
+package src;
 
-import java.util.*;
-
-/**
- * 
- */
 public class Admin {
 
-    /**
-     * Default constructor
-     */
     public Admin() {
+        this.adminPassword = "1q2w3e4r";
     }
 
-    /**
-     * 
-     */
     private String adminPassword;
 
 }

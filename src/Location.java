@@ -1,16 +1,9 @@
-
-import java.util.*;
-
-/**
- * 
- */
+package src;
 
 public class Location {
     private int x;
     private int y;
-    /**
-     * Default constructor
-     */
+
     public Location() {
         this.x = 0;
         this.y = 0;
@@ -19,9 +12,7 @@ public class Location {
         this.x = x;
         this.y = y;
     }
-    /**
-     * 
-     */
+
     public int getY() {
         return y;
     }
@@ -37,6 +28,4 @@ public class Location {
     public void setY(int y) {
         this.y = y;
     }
-    //private <int, int> location;
-
 }

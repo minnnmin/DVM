@@ -51,7 +51,7 @@ public class DVM {
     }
 
 
-    public boolean reqVerificationCodeItem(String vCode) {
+    public int reqVerificationCodeItem(String vCode) {
         // TODO implement here
         int index = vCodeList.indexOf(vCode);
         vCodeList.remove(index);
@@ -60,7 +60,7 @@ public class DVM {
         int dCode = Calc%100;
         int Count = Calc/100;
         // getOutDrink 가 dCode랑 Count 정보를 필요로 할 것 같은데..?
-        return false;
+        return Calc; //int dCode = Calc%100, int Count = Calc/100
     }
 
     public boolean isValidPassword(String pw) {
@@ -97,7 +97,5 @@ public class DVM {
                 if(itemList[i].getStock() == -1) itemList[i].setStock(0);
             }
         }
-        //
     }
-
 }
