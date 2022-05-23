@@ -113,32 +113,6 @@ public class Controller {
         }
     }
 
-    public Location getClosestDVM() {
-        // TODO implement here
-        Location returnLoc = new Location();
-        int min = 9999;
-        //location[] respondLoc = new Location[10];
-        Location myLoc = myDVM.getLocation();
-        int x = myLoc.getX();
-        int y = myLoc.getY();
-        /*
-            msg broadcast, dCode(음료)가 count 이상인 DVM들의 위치를 받아서 바로바로 비교
-        */
-        //받은 메시지의 location이 res이라고 가정
-        //while(메세지 큐가 비지않았다면 반복)
-        int tempx = x - res.x;
-        if(tempx<0) tempx = tempx * -1;
-        int tempy = y - res.y;
-        if(tempy<0) tempy = tempy * -1;
-        if(tempx+tempy < min) {
-            min = tempx + tempy;
-            returnLoc.setX(tempx);
-            returnLoc.setY(tempy);
-        }
-        // 반복
-
-        return returnLoc;
-    }
 
     public void showOtherDVM(Location otherDVM) {
         System.out.println("재고가 있는 가장 가까운 DVM의 위치는 "+otherDVM.getX()+", "+otherDVM.getY());
@@ -195,15 +169,15 @@ public class Controller {
             }
         }
 
-        if(myDVM.checkStock( Integer.parseInt(dCode), count)){
-            showPaymentPage();
+        if(myDVM.checkStock(Integer.parseInt(dCode), count)){
+            showPaymentPage(calculateTotalPrice());
         }else{
             showOtherDVM(getClosestDVM());
-            showPaymentPage();
+            showPaymentPage(calculateTotalPrice());
         }
     }
 
-    public void showPaymentPage() {
+    public void showPaymentPage(int totalPrice) {
         // TODO implement here
     }
 
@@ -322,11 +296,7 @@ public class Controller {
                         //음표 판매 응답 message 보냄
                     }
                 }
-                else{
-                        //응답 message 보내지 않음
-                }
                 break;
-
             case "PrepaymentCheck":
                 myDVM.saveVerificationCode(msg.getMsgDescription().getAuthCode(), Integer.parseInt(msg.getMsgDescription().getItemCode()), msg.getMsgDescription().getItemNum());
                 break;
@@ -334,13 +304,13 @@ public class Controller {
 
     }
 
-    public boolean checkMsgType() {    //Message 객체에서 msgType 바로 사용하면 되서 필요 없을 것 같습니다.
-        // TODO implement here
-        return false;
-    }
+    public void getOutDrink(int temp) {
+        int dCode_ = temp%100;
+        int count_ = temp/100;
 
-    public void getOutDrink(String vCode) {
-        System.out.println(vCode);
+        Item item = myDVM.getItemList()[dCode_ -1];
+
+        System.out.println("음료: " + item.getName() + ", " + count_ + "개");
         System.out.println("음료가 모두 배출되었습니다.\n 감사합니다.");
 
     }
