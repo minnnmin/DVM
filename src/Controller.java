@@ -81,7 +81,7 @@ public class Controller {
             check=false; //위에 함수 없어서 우선 그냥 해 놓은 것.
             if (check) {
             //    CardCompany.deductMoney(cardInfo,totalPrice);
-                myDVM.updateStock();    //뭔가 넘겨야 할 것 같다.
+                myDVM.updateStock();    //뭔가 넘겨야 할 것 같다. (count, code)
                 getOutDrink();  //updateStock이 잘 되면 진행해야 할 것 같다.
                 return;
             }
@@ -246,7 +246,7 @@ public class Controller {
         System.out.println("<음료 정보 관리>");
         System.out.println("음료 정보 관리 시 tab을 눌러 다음 정보를 입력 후");
         System.out.println("enter를 눌러 다음 음료를 입력하세요.\n");
-        System.out.println("음료 코드   음료 이름   가격  재고  판매 여부");
+        System.out.println("음료코드\t음료 이름\t가격\t재고\t판매여부");
 
         for(int i=1;i<myItem.length;i++)
         {
@@ -297,6 +297,7 @@ public class Controller {
                 }
 
                 myDVM.saveDrinkInfo(i,price,stock,myItem[i].getName());
+                scan.nextLine();
             }
         }
 
